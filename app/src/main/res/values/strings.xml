@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">MetalPlayer</string>
+    <string name="play">Play</string>
+    <string name="pause_button">Pause</string>
+    <string name="resume">Resume</string>
+    <string name="stop">Stop</string>
+</resources>

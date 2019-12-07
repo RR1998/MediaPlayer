@@ -10,12 +10,12 @@ import androidx.appcompat.app.AppCompatActivity
  * Main class that executes the principal functions of MetalPlayer
  */
 class MainActivity : AppCompatActivity() {
+    var position = INITIAL_POSITION
+    private val songs = arrayOf(R.raw.chop_suey, R.raw.cocaine, R.raw.painkiller)
     private lateinit var mediaPlayer: MediaPlayer
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_portrait)
-        var position = INITIAL_POSITION
-        val songs = arrayOf(R.raw.chop_suey, R.raw.cocaine, R.raw.painkiller)
         val imageDescription = findViewById<TextView>(R.id.song_info)
         val imageSong = findViewById<ImageView>(R.id.song_image)
         val playButton = findViewById<ImageView>(R.id.play_button)
@@ -27,12 +27,6 @@ class MainActivity : AppCompatActivity() {
             mediaPlayer.start()
         }
         pauseButton.setOnClickListener {
-            /*            val t = Toast.makeText(
-                            this,
-                            mediaPlayer.selectTrack(2).toString(),
-                            Toast.LENGTH_SHORT
-                        )
-                        t.show()*/
             mediaPlayer.pause()
         }
         backWard.setOnClickListener {

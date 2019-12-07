@@ -36,15 +36,7 @@ class MainActivity : AppCompatActivity() {
             mediaPlayer.pause()
         }
         backWard.setOnClickListener {
-            position--
-            mediaPlayer.stop()
-            if (position < INITIAL_POSITION) {
-                position = songs.size - CONSTANT_RECEIVER
-                mediaPlayer = MediaPlayer.create(this, songs[position])
-            } else {
-                mediaPlayer = MediaPlayer.create(this, songs[position])
-            }
-            mediaPlayer.start()
+            backwardFunction()
         }
         fordWard.setOnClickListener {
             mediaPlayer.stop()
@@ -57,6 +49,28 @@ class MainActivity : AppCompatActivity() {
             }
             mediaPlayer.start()
         }
+    }
+    fun backwardFunction(){
+        position--
+        mediaPlayer.stop()
+        if (position < INITIAL_POSITION) {
+            position = songs.size - CONSTANT_RECEIVER
+            mediaPlayer = MediaPlayer.create(this, songs[position])
+        } else {
+            mediaPlayer = MediaPlayer.create(this, songs[position])
+        }
+        mediaPlayer.start()
+    }
+    private fun forwardFunction(){
+        mediaPlayer.stop()
+        position++
+        if (position == songs.size) {
+            position = INITIAL_POSITION
+            mediaPlayer = MediaPlayer.create(this, songs[position])
+        } else {
+            mediaPlayer = MediaPlayer.create(this, songs[position])
+        }
+        mediaPlayer.start()
     }
 
     companion object {

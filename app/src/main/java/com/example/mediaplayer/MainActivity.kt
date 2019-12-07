@@ -14,7 +14,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_portrait)
-        var position = 0
+        var position = INITIAL_POSITION
         val songs = arrayOf(R.raw.chop_suey, R.raw.cocaine, R.raw.painkiller)
         val imageDescription = findViewById<TextView>(R.id.song_info)
         val imageSong = findViewById<ImageView>(R.id.song_image)
@@ -38,8 +38,8 @@ class MainActivity : AppCompatActivity() {
         backWard.setOnClickListener {
             position--
             mediaPlayer.stop()
-            if (position < 0) {
-                position = songs.size - 1
+            if (position < INITIAL_POSITION) {
+                position = songs.size - CONSTANT_RECEIVER
                 mediaPlayer = MediaPlayer.create(this, songs[position])
             } else {
                 mediaPlayer = MediaPlayer.create(this, songs[position])
@@ -50,14 +50,17 @@ class MainActivity : AppCompatActivity() {
             mediaPlayer.stop()
             position++
             if (position == songs.size) {
-                position = 0
+                position = INITIAL_POSITION
                 mediaPlayer = MediaPlayer.create(this, songs[position])
             } else {
                 mediaPlayer = MediaPlayer.create(this, songs[position])
             }
             mediaPlayer.start()
         }
-
     }
 
+    companion object {
+        const val INITIAL_POSITION = 0
+        const val CONSTANT_RECEIVER = 1
+    }
 }

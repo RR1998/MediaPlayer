@@ -1,43 +1,63 @@
 package com.example.mediaplayer
 
-import android.content.Intent
 import android.media.MediaPlayer
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
 import android.widget.ImageView
-import android.widget.Toast
-import kotlinx.android.synthetic.main.activity_main.*
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 
+/**
+ * Main class that executes the principal functions of MetalPlayer
+ */
 class MainActivity : AppCompatActivity() {
     private lateinit var mediaPlayer: MediaPlayer
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        val playButton = findViewById<Button>(R.id.play_button)
-        val pauseButton = findViewById<Button>(R.id.pause_button)
-        val stopButton = findViewById<Button>(R.id.stop_button)
-        val resetButton = findViewById<Button>(R.id.resume_button)
-        mediaPlayer = MediaPlayer.create(this ,R.raw.chop_suey)
+        setContentView(R.layout.activity_portrait)
+        var position = 0
+        val songs = arrayOf(R.raw.chop_suey, R.raw.cocaine, R.raw.painkiller)
+        val imageDescription = findViewById<TextView>(R.id.song_info)
+        val imageSong = findViewById<ImageView>(R.id.song_image)
+        val playButton = findViewById<ImageView>(R.id.play_button)
+        val pauseButton = findViewById<ImageView>(R.id.pause_button)
+        val backWard = findViewById<ImageView>(R.id.backward_button)
+        val fordWard = findViewById<ImageView>(R.id.forward_button)
+        mediaPlayer = MediaPlayer.create(this, songs[position])
         playButton.setOnClickListener {
-            //val intent = Intent(this, NumbersActivity::class.java)
-            mediaPlayer?.start()
-            //startActivity(intent)
-            var t = Toast.makeText(this, mediaPlayer.duration.toString(), Toast.LENGTH_SHORT)
-            t.show()
+            mediaPlayer.start()
         }
         pauseButton.setOnClickListener {
-            mediaPlayer?.pause()
+            /*            val t = Toast.makeText(
+                            this,
+                            mediaPlayer.selectTrack(2).toString(),
+                            Toast.LENGTH_SHORT
+                        )
+                        t.show()*/
+            mediaPlayer.pause()
         }
-        stopButton.setOnClickListener {
-            mediaPlayer?.stop()
-            mediaPlayer = MediaPlayer.create(this ,R.raw.painkiller)
+        backWard.setOnClickListener {
+            position--
+            mediaPlayer.stop()
+            if (position < 0) {
+                position = songs.size - 1
+                mediaPlayer = MediaPlayer.create(this, songs[position])
+            } else {
+                mediaPlayer = MediaPlayer.create(this, songs[position])
+            }
+            mediaPlayer.start()
         }
-        resetButton.setOnClickListener {
-            mediaPlayer?.reset()
+        fordWard.setOnClickListener {
+            mediaPlayer.stop()
+            position++
+            if (position == songs.size) {
+                position = 0
+                mediaPlayer = MediaPlayer.create(this, songs[position])
+            } else {
+                mediaPlayer = MediaPlayer.create(this, songs[position])
+            }
+            mediaPlayer.start()
         }
-        mediaPlayer.setOnCompletionListener {
-            //findViewById<raw.>()
-        }
+
     }
+
 }

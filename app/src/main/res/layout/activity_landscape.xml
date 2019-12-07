@@ -15,7 +15,7 @@
             android:id="@+id/backward_button"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:contentDescription="@string/forward_button_image"
+            android:contentDescription="@string/backward_button_image"
             android:src="@mipmap/backward_button"
             app:layout_constraintBottom_toTopOf="@id/pause_button"
             app:layout_constraintEnd_toEndOf="parent"

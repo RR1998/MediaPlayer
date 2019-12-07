@@ -59,6 +59,11 @@ class MainActivity : AppCompatActivity() {
         mediaPlayer.start()
     }
 
+    override fun onRetainCustomNonConfigurationInstance(): Any? {
+        return (mediaPlayer)
+
+    }
+
     companion object {
         const val INITIAL_POSITION = 0
         const val CONSTANT_RECEIVER = 1

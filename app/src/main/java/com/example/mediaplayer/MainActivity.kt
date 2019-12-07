@@ -39,15 +39,7 @@ class MainActivity : AppCompatActivity() {
             backwardFunction()
         }
         fordWard.setOnClickListener {
-            mediaPlayer.stop()
-            position++
-            if (position == songs.size) {
-                position = INITIAL_POSITION
-                mediaPlayer = MediaPlayer.create(this, songs[position])
-            } else {
-                mediaPlayer = MediaPlayer.create(this, songs[position])
-            }
-            mediaPlayer.start()
+            forwardFunction()
         }
     }
     private fun backwardFunction(){

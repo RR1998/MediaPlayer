@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
             mediaPlayer.start()
         }
     }
-    fun backwardFunction(){
+    private fun backwardFunction(){
         position--
         mediaPlayer.stop()
         if (position < INITIAL_POSITION) {

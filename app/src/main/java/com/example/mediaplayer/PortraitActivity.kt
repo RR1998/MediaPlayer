@@ -35,19 +35,17 @@ class MainActivity : AppCompatActivity() {
         fordWard.setOnClickListener {
             forwardFunction()
         }
-    }
-
-    private fun backwardFunction() {
-        position--
-        mediaPlayer.stop()
-        if (position < INITIAL_POSITION) {
-            position = songs.size - CONSTANT_RECEIVER
-            mediaPlayer = MediaPlayer.create(this, songs[position])
-        } else {
-            mediaPlayer = MediaPlayer.create(this, songs[position])
+        pruebaButton.setOnClickListener {
+            val intent = Intent(this, musicServiceClass)
+            startActivity(intent)
         }
-        mediaPlayer.start()
     }
+    private val myConnection = object : ServiceConnection {
+        override fun onServiceConnected(className: ComponentName,  service: IBinder) {
+            val binder = service as MusicService.MyBinder
+            this@PortraitActivity.myService = binder.getService()
+            isBound = true
+        }
 
     private fun forwardFunction() {
         mediaPlayer.stop()

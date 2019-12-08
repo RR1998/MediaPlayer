@@ -19,14 +19,12 @@ class MusicService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-
         mediaPlayer = MediaPlayer.create(this, songs[position])
         mediaPlayer.start()
         return START_STICKY
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    fun stopMusicFunction() {
         mediaPlayer.pause()
     }
 

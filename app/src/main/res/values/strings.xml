@@ -5,4 +5,5 @@
     <string name="play_button_image">Play button image</string>
     <string name="forward_button_image">Forward button image</string>
     <string name="song_info_image">song info image</string>
+    <string name="song_image">Song image</string>
 </resources>

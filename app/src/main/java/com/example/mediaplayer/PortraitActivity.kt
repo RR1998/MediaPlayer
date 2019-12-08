@@ -14,10 +14,9 @@ import androidx.appcompat.app.AppCompatActivity
 /**
  * Main class that executes the principal functions of MetalPlayer
  */
-class MainActivity : AppCompatActivity() {
-    private var position = INITIAL_POSITION
-    private val songs = arrayOf(R.raw.chop_suey, R.raw.cocaine, R.raw.painkiller)
-    private lateinit var mediaPlayer: MediaPlayer
+class PortraitActivity : AppCompatActivity() {
+    lateinit var myService: MusicService
+    var isBound = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_portrait)

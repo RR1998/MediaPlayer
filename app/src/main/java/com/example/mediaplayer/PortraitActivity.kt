@@ -4,14 +4,10 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
-import android.media.MediaMetadataRetriever
 import android.os.Bundle
 import android.os.IBinder
-import android.util.Log
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 /**
@@ -23,34 +19,41 @@ class PortraitActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_portrait)
-        val imageDescription = findViewById<TextView>(R.id.song_info)
+        val songDescription = findViewById<TextView>(R.id.song_info)
         val imageSong = findViewById<ImageView>(R.id.song_image)
-        val pruebaButton = findViewById<Button>(R.id.prueba)
         val playButton = findViewById<ImageView>(R.id.play_button)
         val pauseButton = findViewById<ImageView>(R.id.pause_button)
         val backWard = findViewById<ImageView>(R.id.backward_button)
         val fordWard = findViewById<ImageView>(R.id.forward_button)
-        val musicServiceClass = MusicService::class.java
-        bindService(Intent(this, musicServiceClass), myConnection, Context.BIND_AUTO_CREATE)
+        val musicServiceIntent = Intent(this, MUSIC_SERVICE_JAVA_CLASS)
+        val detailClassIntent = Intent(this, DETAIL_JAVA_CLASS)
+        bindService(musicServiceIntent, myConnection, Context.BIND_AUTO_CREATE)
         playButton.setOnClickListener {
-            startService(Intent(this, musicServiceClass))
+            myService.startService(musicServiceIntent)
+            imageSong.setImageResource(myService.playingSong())
+            //myService.getArtist(myService)
         }
         pauseButton.setOnClickListener {
-            stopService(Intent(this, musicServiceClass))
+            myService.stopMusicFunction()
         }
         backWard.setOnClickListener {
             myService.backwardFunction()
+            imageSong.setImageResource(myService.playingSong())
         }
         fordWard.setOnClickListener {
             myService.forwardFunction()
+            imageSong.setImageResource(myService.playingSong())
         }
-        pruebaButton.setOnClickListener {
-            val intent = Intent(this, musicServiceClass)
-            startActivity(intent)
+        imageSong.setOnClickListener {
+            startActivity(detailClassIntent)
         }
     }
+
+    /**
+     * MyConnection checks the status of the service connection
+     */
     private val myConnection = object : ServiceConnection {
-        override fun onServiceConnected(className: ComponentName,  service: IBinder) {
+        override fun onServiceConnected(className: ComponentName, service: IBinder) {
             val binder = service as MusicService.MyBinder
             this@PortraitActivity.myService = binder.getService()
             isBound = true
@@ -62,7 +65,12 @@ class PortraitActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        stopService(Intent(this, MusicService::class.java))
+        stopService(Intent(this, MUSIC_SERVICE_JAVA_CLASS))
         super.onDestroy()
+    }
+
+    companion object {
+        val MUSIC_SERVICE_JAVA_CLASS = MusicService::class.java
+        val DETAIL_JAVA_CLASS = DetailSection::class.java
     }
 }

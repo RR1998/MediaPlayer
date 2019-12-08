@@ -10,8 +10,8 @@ import android.os.IBinder
  * MusicService plays the music and keeps playing it
  */
 class MusicService : Service() {
-    private var position = INITIAL_POSITION
-    private val songs = arrayOf(R.raw.chop_suey, R.raw.cocaine, R.raw.painkiller)
+    var position = INITIAL_POSITION
+    val songs = arrayOf(R.raw.chop_suey, R.raw.cocaine, R.raw.painkiller)
     private val myBinder = MyBinder()
     private lateinit var mediaPlayer: MediaPlayer
     override fun onBind(intent: Intent?): IBinder? {

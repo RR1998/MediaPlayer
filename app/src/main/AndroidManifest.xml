@@ -5,9 +5,9 @@
 
     <application
         android:allowBackup="false"
-        android:icon="@mipmap/play_button"
+        android:icon="@drawable/icons_metal_player_play"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/play_button"
+        android:roundIcon="@drawable/icons_metal_player_play"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">

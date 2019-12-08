@@ -15,4 +15,5 @@ class DetailSection : AppCompatActivity() {
         val id = bundleReceived!!.getInt("songId")
         song.text = tools.songName(resources.getResourceEntryName(id))
     }
+
 }

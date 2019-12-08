@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
  * Main class that executes the principal functions of MetalPlayer
  */
 class MainActivity : AppCompatActivity() {
-    var position = INITIAL_POSITION
+    private var position = INITIAL_POSITION
     private val songs = arrayOf(R.raw.chop_suey, R.raw.cocaine, R.raw.painkiller)
     private lateinit var mediaPlayer: MediaPlayer
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,7 +36,8 @@ class MainActivity : AppCompatActivity() {
             forwardFunction()
         }
     }
-    private fun backwardFunction(){
+
+    private fun backwardFunction() {
         position--
         mediaPlayer.stop()
         if (position < INITIAL_POSITION) {
@@ -47,7 +48,8 @@ class MainActivity : AppCompatActivity() {
         }
         mediaPlayer.start()
     }
-    private fun forwardFunction(){
+
+    private fun forwardFunction() {
         mediaPlayer.stop()
         position++
         if (position == songs.size) {

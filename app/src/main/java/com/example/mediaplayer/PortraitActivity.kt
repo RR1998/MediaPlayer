@@ -19,6 +19,7 @@ class PortraitActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_portrait)
+        val tools = Tools()
         val songDescription = findViewById<TextView>(R.id.song_info)
         val imageSong = findViewById<ImageView>(R.id.song_image)
         val playButton = findViewById<ImageView>(R.id.play_button)
@@ -26,23 +27,30 @@ class PortraitActivity : AppCompatActivity() {
         val backWard = findViewById<ImageView>(R.id.backward_button)
         val fordWard = findViewById<ImageView>(R.id.forward_button)
         val musicServiceIntent = Intent(this, MUSIC_SERVICE_JAVA_CLASS)
-        val detailClassIntent = Intent(this, DETAIL_JAVA_CLASS)
+        var songPlaying = 0
+
         bindService(musicServiceIntent, myConnection, Context.BIND_AUTO_CREATE)
+
         playButton.setOnClickListener {
             myService.startService(musicServiceIntent)
-            imageSong.setImageResource(myService.playingSong())
-            //myService.getArtist(myService)
+            imageSong.setImageResource(myService.playingSongImage())
+            songPlaying = myService.songs[myService.position]
+            songDescription.text = tools.songName(resources.getResourceEntryName(songPlaying))
         }
         pauseButton.setOnClickListener {
             myService.stopMusicFunction()
         }
         backWard.setOnClickListener {
             myService.backwardFunction()
-            imageSong.setImageResource(myService.playingSong())
+            imageSong.setImageResource(myService.playingSongImage())
+            songPlaying = myService.songs[myService.position]
+            songDescription.text = tools.songName(resources.getResourceEntryName(songPlaying))
         }
         fordWard.setOnClickListener {
             myService.forwardFunction()
-            imageSong.setImageResource(myService.playingSong())
+            imageSong.setImageResource(myService.playingSongImage())
+            songPlaying = myService.songs[myService.position]
+            songDescription.text = tools.songName(resources.getResourceEntryName(songPlaying))
         }
         imageSong.setOnClickListener {
             val detailClassIntent = Intent(this, DETAIL_JAVA_CLASS)
@@ -69,7 +77,7 @@ class PortraitActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        stopService(Intent(this, MUSIC_SERVICE_JAVA_CLASS))
+        myService.stopService(Intent(this, MUSIC_SERVICE_JAVA_CLASS))
         super.onDestroy()
     }
 

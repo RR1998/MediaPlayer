@@ -10,7 +10,7 @@
         android:roundIcon="@mipmap/play_button"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning" >
+        tools:ignore="GoogleAppIndexingWarning">
 
         <activity
             android:name=".PortraitActivity"

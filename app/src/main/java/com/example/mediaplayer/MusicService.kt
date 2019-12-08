@@ -60,6 +60,23 @@ class MusicService : Service() {
         mediaPlayer.start()
     }
 
+
+    fun playingSongImage(): Int {
+        if (position == 0) {
+            return R.drawable.icons_metal_player_chop_suey
+        }
+        if (position == 1) {
+            return R.drawable.icons_metal_player_cocaine
+        }
+        if (position == 2) {
+            return R.drawable.icons_metal_player_painkiller
+        }
+        return 0
+    }
+
+    /**
+     * MyBinder returns a bing to the service
+     */
     inner class MyBinder : Binder() {
         fun getService(): MusicService {
             return this@MusicService

@@ -45,6 +45,10 @@ class PortraitActivity : AppCompatActivity() {
             imageSong.setImageResource(myService.playingSong())
         }
         imageSong.setOnClickListener {
+            val detailClassIntent = Intent(this, DETAIL_JAVA_CLASS)
+            val bundle = Bundle()
+            bundle.putInt("songId", songPlaying)
+            detailClassIntent.putExtras(bundle)
             startActivity(detailClassIntent)
         }
     }

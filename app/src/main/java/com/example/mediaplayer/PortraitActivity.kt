@@ -23,22 +23,24 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_portrait)
         val imageDescription = findViewById<TextView>(R.id.song_info)
         val imageSong = findViewById<ImageView>(R.id.song_image)
+        val pruebaButton = findViewById<Button>(R.id.prueba)
         val playButton = findViewById<ImageView>(R.id.play_button)
         val pauseButton = findViewById<ImageView>(R.id.pause_button)
         val backWard = findViewById<ImageView>(R.id.backward_button)
         val fordWard = findViewById<ImageView>(R.id.forward_button)
-        mediaPlayer = MediaPlayer.create(this, songs[position])
+        val musicServiceClass = MusicService::class.java
+        bindService(Intent(this, musicServiceClass), myConnection, Context.BIND_AUTO_CREATE)
         playButton.setOnClickListener {
-            mediaPlayer.start()
+            startService(Intent(this, musicServiceClass))
         }
         pauseButton.setOnClickListener {
-            mediaPlayer.pause()
+            stopService(Intent(this, musicServiceClass))
         }
         backWard.setOnClickListener {
-            backwardFunction()
+            myService.backwardFunction()
         }
         fordWard.setOnClickListener {
-            forwardFunction()
+            myService.forwardFunction()
         }
         pruebaButton.setOnClickListener {
             val intent = Intent(this, musicServiceClass)
@@ -52,25 +54,13 @@ class MainActivity : AppCompatActivity() {
             isBound = true
         }
 
-    private fun forwardFunction() {
-        mediaPlayer.stop()
-        position++
-        if (position == songs.size) {
-            position = INITIAL_POSITION
-            mediaPlayer = MediaPlayer.create(this, songs[position])
-        } else {
-            mediaPlayer = MediaPlayer.create(this, songs[position])
+        override fun onServiceDisconnected(name: ComponentName) {
+            isBound = false
         }
-        mediaPlayer.start()
     }
 
-    override fun onRetainCustomNonConfigurationInstance(): Any? {
-        return (mediaPlayer)
-
-    }
-
-    companion object {
-        const val INITIAL_POSITION = 0
-        const val CONSTANT_RECEIVER = 1
+    override fun onDestroy() {
+        stopService(Intent(this, MusicService::class.java))
+        super.onDestroy()
     }
 }

@@ -6,6 +6,9 @@ import android.media.MediaPlayer
 import android.os.Binder
 import android.os.IBinder
 
+/**
+ * MusicService plays the music and keeps playing it
+ */
 class MusicService : Service() {
     private var position = INITIAL_POSITION
     private val songs = arrayOf(R.raw.chop_suey, R.raw.cocaine, R.raw.painkiller)
@@ -27,6 +30,9 @@ class MusicService : Service() {
         mediaPlayer.pause()
     }
 
+    /**
+     * backward function retreats one position in the songs array
+     */
     fun backwardFunction() {
         position--
         mediaPlayer.stop()
@@ -39,6 +45,9 @@ class MusicService : Service() {
         mediaPlayer.start()
     }
 
+    /**
+     * forward function advance one position in the songs array
+     */
     fun forwardFunction() {
         mediaPlayer.stop()
         position++

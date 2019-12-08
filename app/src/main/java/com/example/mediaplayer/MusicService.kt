@@ -1,10 +1,14 @@
 package com.example.mediaplayer
 
 import android.app.Service
+import android.content.Context
 import android.content.Intent
+import android.media.MediaMetadataRetriever
 import android.media.MediaPlayer
+import android.net.Uri
 import android.os.Binder
 import android.os.IBinder
+import android.widget.Toast
 
 class MusicService : Service() {
     private var position = INITIAL_POSITION

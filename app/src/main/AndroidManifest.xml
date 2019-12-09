@@ -13,7 +13,7 @@
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity
-            android:name=".PortraitActivity"
+            android:name=".activities.PortraitActivity"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden">
 
             <intent-filter>
@@ -21,9 +21,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DetailSection" />
+        <activity android:name=".activities.DetailSection" />
 
-        <service android:name=".MusicService"
+        <service android:name=".services.MusicService"
             android:enabled="true"
             android:exported="true"
             android:permission="true" />

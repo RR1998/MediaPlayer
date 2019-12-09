@@ -6,8 +6,8 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mediaplayer.R
 import com.example.mediaplayer.activities.PortraitActivity.Companion.VARIABLE_NAME_KEY
-import com.example.mediaplayer.services.MusicService.Companion.CHOP_SUEY_DRAWABLE
-import com.example.mediaplayer.services.MusicService.Companion.CHOP_SUEY_RAW_FILE
+import com.example.mediaplayer.services.MusicService.Companion.CHOP_DRAWABLE
+import com.example.mediaplayer.services.MusicService.Companion.CHOP_RAW_FILE
 import com.example.mediaplayer.services.MusicService.Companion.COCAINE_DRAWABLE
 import com.example.mediaplayer.services.MusicService.Companion.COCAINE_RAW_FILE
 import com.example.mediaplayer.services.MusicService.Companion.PAINKILLER_DRAWABLE
@@ -30,18 +30,18 @@ class DetailSection : AppCompatActivity() {
         var placeHolder = ""
         var headerHolder: String
         headerHolder = tools.songName(resources.getResourceEntryName(id))
-        if (id == CHOP_SUEY_RAW_FILE) {
-            headerHolder = "${headerHolder}\nAuthor: System of a Down"
-            placeHolder = CHOP_SUEY_LYRICS
-            songImage.setImageResource(CHOP_SUEY_DRAWABLE)
+        if (id == CHOP_RAW_FILE) {
+            headerHolder = "${headerHolder}\n$CHOP_AUTHOR"
+            placeHolder = CHOP_LYRICS
+            songImage.setImageResource(CHOP_DRAWABLE)
         }
         if (id == COCAINE_RAW_FILE) {
-            headerHolder = "${headerHolder}\nAuthor: Eric Clapton"
+            headerHolder = "${headerHolder}\n$COCAINE_AUTHOR"
             placeHolder = COCAINE_LYRICS
             songImage.setImageResource(COCAINE_DRAWABLE)
         }
         if (id == PAINKILLER_RAW_FILE) {
-            headerHolder = "${headerHolder}\nAuthor: Judas Priest"
+            headerHolder = "${headerHolder}\n$PAINKILLER_AUTHOR"
             placeHolder = PAINKILLER_LYRICS
             songImage.setImageResource(PAINKILLER_DRAWABLE)
         }
@@ -50,7 +50,10 @@ class DetailSection : AppCompatActivity() {
     }
 
     companion object {
-        const val CHOP_SUEY_LYRICS =
+        const val COCAINE_AUTHOR ="Author: Eric Clapton"
+        const val CHOP_AUTHOR = "Author: System of a Down"
+        const val PAINKILLER_AUTHOR = "Author: Judas Priest"
+        const val CHOP_LYRICS =
             "Lyrics:\nWake up\n Grab a brush and put a little (makeup)\n Grab a brush and put a little\n Hide the scars to fade away the (shakeup)\n Hide the scars to fade away the\nWhy'd you leave the keys upon the table?\nHere you go create another fable\nYou wanted to\nGrab a brush and put a little makeup\nYou wanted to\nHide the scars to fade away the shakeup\nYou wanted to\nWhy'd you leave the keys upon the table?\nYou wanted to"
         const val COCAINE_LYRICS =
             "Lyrics:\nIf you want to hang out, you've gotta take her out, cocaine\nIf you want to get down, get down on the ground, cocaine\nShe don't lie, she don't lie, she don't lie,\nCocaine\nIf you got that lose, you want to kick them blues, cocaine\nWhen your day is done, and you want to ride on cocaine\nShe don't lie, she don't lie, she don't lie,\nCocaine\nIf your day is gone, and you want to ride on, cocaine\nDon't forget this fact, you can't get it back, cocaine\nShe don't lie, she don't lie, she don't lie,\nCocaine\nShe don't lie, she don't lie, she don't lie,\nCocaine\n"

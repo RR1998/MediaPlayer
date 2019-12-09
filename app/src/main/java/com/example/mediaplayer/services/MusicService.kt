@@ -13,7 +13,7 @@ import com.example.mediaplayer.R
 class MusicService : Service() {
     var position =
         INITIAL_POSITION
-    val songs = arrayOf(CHOP_SUEY_RAW_FILE, COCAINE_RAW_FILE, PAINKILLER_RAW_FILE)
+    val songs = arrayOf(CHOP_RAW_FILE, COCAINE_RAW_FILE, PAINKILLER_RAW_FILE)
     private val myBinder = MyBinder()
     private lateinit var mediaPlayer: MediaPlayer
     override fun onBind(intent: Intent?): IBinder? {
@@ -63,16 +63,16 @@ class MusicService : Service() {
 
 
     fun playingSongImage(): Int {
-        if (position == 0) {
-            return CHOP_SUEY_DRAWABLE
+        if (position == CHOP_POSITION) {
+            return CHOP_DRAWABLE
         }
-        if (position == 1) {
+        if (position == COCAINE_POSITION) {
             return COCAINE_DRAWABLE
         }
-        if (position == 2) {
+        if (position == PAINKILLER_POSITION) {
             return PAINKILLER_DRAWABLE
         }
-        return 0
+        return PROVISIONAL_RETURN
     }
 
     /**
@@ -85,10 +85,14 @@ class MusicService : Service() {
     }
 
     companion object {
-        const val CHOP_SUEY_RAW_FILE = R.raw.chop_suey
+        const val PROVISIONAL_RETURN = 0
+        const val CHOP_POSITION = 0
+        const val COCAINE_POSITION = 1
+        const val PAINKILLER_POSITION = 2
+        const val CHOP_RAW_FILE = R.raw.chop_suey
         const val COCAINE_RAW_FILE = R.raw.cocaine
         const val PAINKILLER_RAW_FILE = R.raw.painkiller
-        const val CHOP_SUEY_DRAWABLE = R.drawable.icons_metal_player_chop_suey
+        const val CHOP_DRAWABLE = R.drawable.icons_metal_player_chop_suey
         const val COCAINE_DRAWABLE = R.drawable.icons_metal_player_cocaine
         const val PAINKILLER_DRAWABLE = R.drawable.icons_metal_player_painkiller
         const val INITIAL_POSITION = 0

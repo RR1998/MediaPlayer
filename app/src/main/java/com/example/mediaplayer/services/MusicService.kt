@@ -63,16 +63,16 @@ class MusicService : Service() {
 
 
     fun playingSongImage(): Int {
-        if (position == 0) {
+        if (position == CHOP_POSITION) {
             return CHOP_DRAWABLE
         }
-        if (position == 1) {
+        if (position == COCAINE_POSITION) {
             return COCAINE_DRAWABLE
         }
-        if (position == 2) {
+        if (position == PAINKILLER_POSITION) {
             return PAINKILLER_DRAWABLE
         }
-        return 0
+        return PROVISIONAL_RETURN
     }
 
     /**
@@ -85,6 +85,10 @@ class MusicService : Service() {
     }
 
     companion object {
+        const val PROVISIONAL_RETURN = 0
+        const val CHOP_POSITION = 0
+        const val COCAINE_POSITION = 1
+        const val PAINKILLER_POSITION = 2
         const val CHOP_RAW_FILE = R.raw.chop_suey
         const val COCAINE_RAW_FILE = R.raw.cocaine
         const val PAINKILLER_RAW_FILE = R.raw.painkiller

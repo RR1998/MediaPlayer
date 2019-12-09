@@ -128,7 +128,7 @@ class PortraitActivity : AppCompatActivity() {
             notificationManager.createNotificationChannel(channel)
         }
         val snoozeIntent = Intent(this, PORTRAIT_JAVA_CLASS).apply {
-            action = "ACTION_SNOOZE"
+            action = ACTION
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 putExtra(EXTRA_NOTIFICATION_ID, FLAGS)
             }
@@ -138,25 +138,27 @@ class PortraitActivity : AppCompatActivity() {
             REQUEST_CODE, snoozeIntent
             , FLAGS
         )
-        val builder = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
+        val builder = NotificationCompat.Builder(this,
+                                                                        NOTIFICATION_CHANNEL_ID)
             .setSmallIcon(R.drawable.icons_metal_player_play)
             .setContentTitle(NOTIFICATION_TITLE)
             .setContentText(song_info.text.toString())
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(pendingIntent)
-            .addAction(R.drawable.icons_metal_player_play, TITLE_BUTTON, snoozePendingIntent)
+            .addAction(R.drawable.icons_metal_player_play, CONTEXT_BUTTON, snoozePendingIntent)
         builder.setContentIntent(pendingIntent)
         mNotificationManager.notify(NOTIFICATION_MANAGER_ID, builder.build())
     }
 
     companion object {
         const val NOTIFICATION_MANAGER_ID = 0
-        const val TITLE_BUTTON = "Action"
+        const val CONTEXT_BUTTON = "Action"
         const val FLAGS = 0
         const val REQUEST_CODE = 0
         const val NOTIFICATION_TITLE = "Playing_Music"
         const val NOTIFICATION_CHANNEL_ID = "CHANNEL_ID"
         const val VARIABLE_NAME_KEY = "songId"
+        const val ACTION = "ACTION_SNOOZE"
         val PORTRAIT_JAVA_CLASS = PortraitActivity::class.java
         val MUSIC_SERVICE_JAVA_CLASS = MusicService::class.java
         val DETAIL_JAVA_CLASS = DetailSection::class.java

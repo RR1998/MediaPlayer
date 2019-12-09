@@ -5,13 +5,15 @@ import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Binder
 import android.os.IBinder
+import com.example.mediaplayer.R
 
 /**
  * MusicService plays the music and keeps playing it
  */
 class MusicService : Service() {
-    var position = INITIAL_POSITION
-    val songs = arrayOf(R.raw.chop_suey, R.raw.cocaine, R.raw.painkiller)
+    var position =
+        INITIAL_POSITION
+    val songs = arrayOf(CHOP_SUEY_RAW_FILE, COCAINE_RAW_FILE, PAINKILLER_RAW_FILE)
     private val myBinder = MyBinder()
     private lateinit var mediaPlayer: MediaPlayer
     override fun onBind(intent: Intent?): IBinder? {
@@ -50,7 +52,8 @@ class MusicService : Service() {
         mediaPlayer.stop()
         position++
         if (position == songs.size) {
-            position = INITIAL_POSITION
+            position =
+                INITIAL_POSITION
             mediaPlayer = MediaPlayer.create(this, songs[position])
         } else {
             mediaPlayer = MediaPlayer.create(this, songs[position])
@@ -61,13 +64,13 @@ class MusicService : Service() {
 
     fun playingSongImage(): Int {
         if (position == 0) {
-            return R.drawable.icons_metal_player_chop_suey
+            return CHOP_SUEY_DRAWABLE
         }
         if (position == 1) {
-            return R.drawable.icons_metal_player_cocaine
+            return COCAINE_DRAWABLE
         }
         if (position == 2) {
-            return R.drawable.icons_metal_player_painkiller
+            return PAINKILLER_DRAWABLE
         }
         return 0
     }

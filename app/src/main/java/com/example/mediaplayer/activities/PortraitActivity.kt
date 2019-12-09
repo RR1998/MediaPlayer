@@ -1,4 +1,4 @@
-package com.example.mediaplayer
+package com.example.mediaplayer.activities
 
 import android.content.ComponentName
 import android.content.Context

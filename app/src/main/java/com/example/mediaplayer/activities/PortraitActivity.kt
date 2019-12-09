@@ -26,6 +26,22 @@ import kotlinx.android.synthetic.main.activity_portrait.*
 class PortraitActivity : AppCompatActivity() {
     lateinit var myService: MusicService
     var isBound = false
+    private val tools = Tools()
+    /**
+     * MyConnection checks the status of the service connection
+     */
+    private val myConnection = object : ServiceConnection {
+        override fun onServiceConnected(className: ComponentName, service: IBinder) {
+            val binder = service as MusicService.MyBinder
+            this@PortraitActivity.myService = binder.getService()
+            isBound = true
+        }
+
+        override fun onServiceDisconnected(name: ComponentName) {
+            isBound = false
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_portrait)

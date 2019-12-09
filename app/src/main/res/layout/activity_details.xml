@@ -22,22 +22,22 @@
         android:id="@+id/song_image"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:contentDescription="@string/song_image"
         app:layout_constraintBottom_toTopOf="@id/info_scrollview"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/song_name"
-        app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="@string/song_image" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
         android:id="@+id/info_scrollview"
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:layout_gravity="bottom"
+        android:layout_marginBottom="75dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintVertical_bias="0.5"
-        android:layout_marginBottom="75dp">
+        app:layout_constraintVertical_bias="0.5">
 
         <TextView
             android:id="@+id/info"

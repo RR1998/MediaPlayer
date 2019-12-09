@@ -29,7 +29,8 @@ class PortraitActivity : AppCompatActivity() {
         val pauseButton = findViewById<ImageView>(R.id.pause_button)
         val backWard = findViewById<ImageView>(R.id.backward_button)
         val fordWard = findViewById<ImageView>(R.id.forward_button)
-        val musicServiceIntent = Intent(this,
+        val musicServiceIntent = Intent(
+            this,
             MUSIC_SERVICE_JAVA_CLASS
         )
         var songPlaying = 0
@@ -58,7 +59,8 @@ class PortraitActivity : AppCompatActivity() {
             songDescription.text = tools.songName(resources.getResourceEntryName(songPlaying))
         }
         imageSong.setOnClickListener {
-            val detailClassIntent = Intent(this,
+            val detailClassIntent = Intent(
+                this,
                 DETAIL_JAVA_CLASS
             )
             val bundle = Bundle()
@@ -84,9 +86,12 @@ class PortraitActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        myService.stopService(Intent(this,
-            MUSIC_SERVICE_JAVA_CLASS
-        ))
+        myService.stopService(
+            Intent(
+                this,
+                MUSIC_SERVICE_JAVA_CLASS
+            )
+        )
         super.onDestroy()
     }
 

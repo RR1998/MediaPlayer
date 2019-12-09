@@ -1,4 +1,4 @@
-package com.example.mediaplayer
+package com.example.mediaplayer.services
 
 import android.app.Service
 import android.content.Intent

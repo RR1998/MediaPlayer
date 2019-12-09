@@ -9,6 +9,9 @@ import android.os.IBinder
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.mediaplayer.services.MusicService
+import com.example.mediaplayer.R
+import com.example.mediaplayer.tools.Tools
 
 /**
  * Main class that executes the principal functions of MetalPlayer
@@ -26,7 +29,9 @@ class PortraitActivity : AppCompatActivity() {
         val pauseButton = findViewById<ImageView>(R.id.pause_button)
         val backWard = findViewById<ImageView>(R.id.backward_button)
         val fordWard = findViewById<ImageView>(R.id.forward_button)
-        val musicServiceIntent = Intent(this, MUSIC_SERVICE_JAVA_CLASS)
+        val musicServiceIntent = Intent(this,
+            MUSIC_SERVICE_JAVA_CLASS
+        )
         var songPlaying = 0
 
         bindService(musicServiceIntent, myConnection, Context.BIND_AUTO_CREATE)
@@ -53,9 +58,11 @@ class PortraitActivity : AppCompatActivity() {
             songDescription.text = tools.songName(resources.getResourceEntryName(songPlaying))
         }
         imageSong.setOnClickListener {
-            val detailClassIntent = Intent(this, DETAIL_JAVA_CLASS)
+            val detailClassIntent = Intent(this,
+                DETAIL_JAVA_CLASS
+            )
             val bundle = Bundle()
-            bundle.putInt("songId", songPlaying)
+            bundle.putInt(VARIABLE_NAME_KEY, songPlaying)
             detailClassIntent.putExtras(bundle)
             startActivity(detailClassIntent)
         }
@@ -77,11 +84,14 @@ class PortraitActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        myService.stopService(Intent(this, MUSIC_SERVICE_JAVA_CLASS))
+        myService.stopService(Intent(this,
+            MUSIC_SERVICE_JAVA_CLASS
+        ))
         super.onDestroy()
     }
 
     companion object {
+        const val VARIABLE_NAME_KEY = "songId"
         val MUSIC_SERVICE_JAVA_CLASS = MusicService::class.java
         val DETAIL_JAVA_CLASS = DetailSection::class.java
     }

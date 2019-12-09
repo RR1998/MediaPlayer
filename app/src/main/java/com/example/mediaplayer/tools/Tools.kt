@@ -1,4 +1,4 @@
-package com.example.mediaplayer
+package com.example.mediaplayer.tools
 
 class Tools {
     fun songName(song: String): String {

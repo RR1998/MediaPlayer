@@ -6,8 +6,8 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mediaplayer.R
 import com.example.mediaplayer.activities.PortraitActivity.Companion.VARIABLE_NAME_KEY
-import com.example.mediaplayer.services.MusicService.Companion.CHOP_SUEY_DRAWABLE
-import com.example.mediaplayer.services.MusicService.Companion.CHOP_SUEY_RAW_FILE
+import com.example.mediaplayer.services.MusicService.Companion.CHOP_DRAWABLE
+import com.example.mediaplayer.services.MusicService.Companion.CHOP_RAW_FILE
 import com.example.mediaplayer.services.MusicService.Companion.COCAINE_DRAWABLE
 import com.example.mediaplayer.services.MusicService.Companion.COCAINE_RAW_FILE
 import com.example.mediaplayer.services.MusicService.Companion.PAINKILLER_DRAWABLE

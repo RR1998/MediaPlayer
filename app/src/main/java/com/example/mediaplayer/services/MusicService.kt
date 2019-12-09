@@ -85,6 +85,12 @@ class MusicService : Service() {
     }
 
     companion object {
+        const val CHOP_SUEY_RAW_FILE = R.raw.chop_suey
+        const val COCAINE_RAW_FILE = R.raw.cocaine
+        const val PAINKILLER_RAW_FILE = R.raw.painkiller
+        const val CHOP_SUEY_DRAWABLE = R.drawable.icons_metal_player_chop_suey
+        const val COCAINE_DRAWABLE = R.drawable.icons_metal_player_cocaine
+        const val PAINKILLER_DRAWABLE = R.drawable.icons_metal_player_painkiller
         const val INITIAL_POSITION = 0
         const val CONSTANT_RECEIVER = 1
     }

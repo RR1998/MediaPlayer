@@ -29,7 +29,6 @@ class PortraitActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_portrait)
-        val tools = Tools()
         val songDescription = findViewById<TextView>(R.id.song_info)
         val imageSong = findViewById<ImageView>(R.id.song_image)
         val playButton = findViewById<ImageView>(R.id.play_button)
@@ -49,6 +48,7 @@ class PortraitActivity : AppCompatActivity() {
             imageSong.setImageResource(myService.playingSongImage())
             songPlaying = myService.songs[myService.position]
             songDescription.text = tools.songName(resources.getResourceEntryName(songPlaying))
+            createNotificationChannel()
         }
         pauseButton.setOnClickListener {
             myService.stopMusicFunction()
@@ -58,12 +58,14 @@ class PortraitActivity : AppCompatActivity() {
             imageSong.setImageResource(myService.playingSongImage())
             songPlaying = myService.songs[myService.position]
             songDescription.text = tools.songName(resources.getResourceEntryName(songPlaying))
+            createNotificationChannel()
         }
         fordWard.setOnClickListener {
             myService.forwardFunction()
             imageSong.setImageResource(myService.playingSongImage())
             songPlaying = myService.songs[myService.position]
             songDescription.text = tools.songName(resources.getResourceEntryName(songPlaying))
+            createNotificationChannel()
         }
         imageSong.setOnClickListener {
             val detailClassIntent = Intent(
@@ -77,21 +79,6 @@ class PortraitActivity : AppCompatActivity() {
         }
     }
 
-    /**
-     * MyConnection checks the status of the service connection
-     */
-    private val myConnection = object : ServiceConnection {
-        override fun onServiceConnected(className: ComponentName, service: IBinder) {
-            val binder = service as MusicService.MyBinder
-            this@PortraitActivity.myService = binder.getService()
-            isBound = true
-        }
-
-        override fun onServiceDisconnected(name: ComponentName) {
-            isBound = false
-        }
-    }
-
     override fun onDestroy() {
         myService.stopService(
             Intent(
@@ -100,6 +87,50 @@ class PortraitActivity : AppCompatActivity() {
             )
         )
         super.onDestroy()
+    }
+
+    private fun createNotificationChannel() {
+        val mNotificationManager =
+            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val intent = Intent(applicationContext, PORTRAIT_JAVA_CLASS)
+        val pendingIntent = PendingIntent.getActivity(
+            this, REQUEST_CODE, intent,
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = getString(R.string.notification_channel_name)
+            val descriptionText = getString(R.string.notification_channel_description)
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(
+                NOTIFICATION_CHANNEL_ID, name,
+                importance
+            ).apply {
+                description = descriptionText
+            }
+            val notificationManager: NotificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
+        val snoozeIntent = Intent(this, PORTRAIT_JAVA_CLASS).apply {
+            action = "ACTION_SNOOZE"
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                putExtra(EXTRA_NOTIFICATION_ID, FLAGS)
+            }
+        }
+        val snoozePendingIntent = PendingIntent.getBroadcast(
+            this,
+            REQUEST_CODE, snoozeIntent
+            , FLAGS
+        )
+        val builder = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
+            .setSmallIcon(R.drawable.icons_metal_player_play)
+            .setContentTitle(NOTIFICATION_TITLE)
+            .setContentText(song_info.text.toString())
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setContentIntent(pendingIntent)
+            .addAction(R.drawable.icons_metal_player_play, TITLE_BUTTON, snoozePendingIntent)
+        builder.setContentIntent(pendingIntent)
+        mNotificationManager.notify(NOTIFICATION_MANAGER_ID, builder.build())
     }
 
     companion object {

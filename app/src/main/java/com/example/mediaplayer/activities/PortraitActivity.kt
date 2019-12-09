@@ -51,6 +51,7 @@ class PortraitActivity : AppCompatActivity() {
         val pauseButton = findViewById<ImageView>(R.id.pause_button)
         val backWard = findViewById<ImageView>(R.id.backward_button)
         val fordWard = findViewById<ImageView>(R.id.forward_button)
+        val context: Context = this
         val musicServiceIntent = Intent(
             this,
             MUSIC_SERVICE_JAVA_CLASS
@@ -64,7 +65,7 @@ class PortraitActivity : AppCompatActivity() {
             imageSong.setImageResource(myService.playingSongImage())
             songPlaying = myService.songs[myService.position]
             songDescription.text = tools.songName(resources.getResourceEntryName(songPlaying))
-            createNotificationChannel()
+            createNotificationChannel(context)
         }
         pauseButton.setOnClickListener {
             myService.stopMusicFunction()
@@ -74,18 +75,18 @@ class PortraitActivity : AppCompatActivity() {
             imageSong.setImageResource(myService.playingSongImage())
             songPlaying = myService.songs[myService.position]
             songDescription.text = tools.songName(resources.getResourceEntryName(songPlaying))
-            createNotificationChannel()
+            createNotificationChannel(context)
         }
         fordWard.setOnClickListener {
             myService.forwardFunction()
             imageSong.setImageResource(myService.playingSongImage())
             songPlaying = myService.songs[myService.position]
             songDescription.text = tools.songName(resources.getResourceEntryName(songPlaying))
-            createNotificationChannel()
+            createNotificationChannel(context)
         }
         imageSong.setOnClickListener {
             val detailClassIntent = Intent(
-                this,
+                context,
                 DETAIL_JAVA_CLASS
             )
             val bundle = Bundle()
@@ -96,21 +97,25 @@ class PortraitActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
+        val context: Context = this
         myService.stopService(
             Intent(
-                this,
+                context,
                 MUSIC_SERVICE_JAVA_CLASS
             )
         )
         super.onDestroy()
     }
 
-    private fun createNotificationChannel() {
+    /**
+     * Creates a notification and add to it an action button
+     */
+    private fun createNotificationChannel(context: Context) {
         val mNotificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val intent = Intent(applicationContext, PORTRAIT_JAVA_CLASS)
         val pendingIntent = PendingIntent.getActivity(
-            this, REQUEST_CODE, intent,
+            context, REQUEST_CODE, intent,
             PendingIntent.FLAG_UPDATE_CURRENT
         )
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -127,18 +132,18 @@ class PortraitActivity : AppCompatActivity() {
                 getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
         }
-        val snoozeIntent = Intent(this, PORTRAIT_JAVA_CLASS).apply {
+        val snoozeIntent = Intent(context, PORTRAIT_JAVA_CLASS).apply {
             action = ACTION
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 putExtra(EXTRA_NOTIFICATION_ID, FLAGS)
             }
         }
         val snoozePendingIntent = PendingIntent.getBroadcast(
-            this,
+            context,
             REQUEST_CODE, snoozeIntent
             , FLAGS
         )
-        val builder = NotificationCompat.Builder(this,
+        val builder = NotificationCompat.Builder(context,
                                                                         NOTIFICATION_CHANNEL_ID)
             .setSmallIcon(R.drawable.icons_metal_player_play)
             .setContentTitle(NOTIFICATION_TITLE)

@@ -1,6 +1,5 @@
 package com.example.mediaplayer.activities
 
-import android.app.Notification.EXTRA_NOTIFICATION_ID
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -15,8 +14,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
-import com.example.mediaplayer.services.MusicService
 import com.example.mediaplayer.R
+import com.example.mediaplayer.services.MusicService
 import com.example.mediaplayer.tools.Tools
 import kotlinx.android.synthetic.main.activity_portrait.*
 
@@ -30,7 +29,7 @@ class PortraitActivity : AppCompatActivity() {
     /**
      * MyConnection checks the status of the service connection
      */
-    private val myConnection = object : ServiceConnection {
+    private val session = object : ServiceConnection {
         override fun onServiceConnected(className: ComponentName, service: IBinder) {
             val binder = service as MusicService.MyBinder
             this@PortraitActivity.myService = binder.getService()
@@ -51,21 +50,18 @@ class PortraitActivity : AppCompatActivity() {
         val pauseButton = findViewById<ImageView>(R.id.pause_button)
         val backWard = findViewById<ImageView>(R.id.backward_button)
         val fordWard = findViewById<ImageView>(R.id.forward_button)
-        val context: Context = this
         val musicServiceIntent = Intent(
             this,
             MUSIC_SERVICE_JAVA_CLASS
         )
-        var songPlaying = 0
-
-        bindService(musicServiceIntent, myConnection, Context.BIND_AUTO_CREATE)
-
+        var songPlaying = INITIAL_SONG_DEFAULT_VALUE
+        bindService(musicServiceIntent, session, Context.BIND_AUTO_CREATE)
         playButton.setOnClickListener {
             myService.startService(musicServiceIntent)
             imageSong.setImageResource(myService.playingSongImage())
             songPlaying = myService.songs[myService.position]
             songDescription.text = tools.songName(resources.getResourceEntryName(songPlaying))
-            createNotificationChannel(context)
+            createNotificationChannel()
         }
         pauseButton.setOnClickListener {
             myService.stopMusicFunction()
@@ -75,18 +71,18 @@ class PortraitActivity : AppCompatActivity() {
             imageSong.setImageResource(myService.playingSongImage())
             songPlaying = myService.songs[myService.position]
             songDescription.text = tools.songName(resources.getResourceEntryName(songPlaying))
-            createNotificationChannel(context)
+            createNotificationChannel()
         }
         fordWard.setOnClickListener {
             myService.forwardFunction()
             imageSong.setImageResource(myService.playingSongImage())
             songPlaying = myService.songs[myService.position]
             songDescription.text = tools.songName(resources.getResourceEntryName(songPlaying))
-            createNotificationChannel(context)
+            createNotificationChannel()
         }
         imageSong.setOnClickListener {
             val detailClassIntent = Intent(
-                context,
+                this,
                 DETAIL_JAVA_CLASS
             )
             val bundle = Bundle()
@@ -110,12 +106,12 @@ class PortraitActivity : AppCompatActivity() {
     /**
      * Creates a notification and add to it an action button
      */
-    private fun createNotificationChannel(context: Context) {
+    private fun createNotificationChannel() {
         val mNotificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val intent = Intent(applicationContext, PORTRAIT_JAVA_CLASS)
         val pendingIntent = PendingIntent.getActivity(
-            context, REQUEST_CODE, intent,
+            this, REQUEST_CODE, intent,
             PendingIntent.FLAG_UPDATE_CURRENT
         )
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -132,38 +128,41 @@ class PortraitActivity : AppCompatActivity() {
                 getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
         }
-        val snoozeIntent = Intent(context, PORTRAIT_JAVA_CLASS).apply {
-            action = ACTION
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                putExtra(EXTRA_NOTIFICATION_ID, FLAGS)
-            }
+        val snoozeIntent = Intent(this, PORTRAIT_JAVA_CLASS).apply {
+            putExtra(PAUSE_BUTTON, 0)
         }
         val snoozePendingIntent = PendingIntent.getBroadcast(
-            context,
+            this,
             REQUEST_CODE, snoozeIntent
             , FLAGS
         )
-        val builder = NotificationCompat.Builder(context,
-                                                                        NOTIFICATION_CHANNEL_ID)
-            .setSmallIcon(R.drawable.icons_metal_player_play)
+        val builder = NotificationCompat.Builder(
+            this,
+            NOTIFICATION_CHANNEL_ID
+        )
+            .setSmallIcon(PLAYER_ICON)
             .setContentTitle(NOTIFICATION_TITLE)
             .setContentText(song_info.text.toString())
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(pendingIntent)
-            .addAction(R.drawable.icons_metal_player_play, CONTEXT_BUTTON, snoozePendingIntent)
+            .addAction(PLAYER_ICON, PLAY_BUTTON, snoozePendingIntent)
+            .addAction(PAUSE_ICON, PAUSE_BUTTON, snoozePendingIntent)
         builder.setContentIntent(pendingIntent)
         mNotificationManager.notify(NOTIFICATION_MANAGER_ID, builder.build())
     }
 
     companion object {
+        const val INITIAL_SONG_DEFAULT_VALUE = 0
         const val NOTIFICATION_MANAGER_ID = 0
-        const val CONTEXT_BUTTON = "Action"
         const val FLAGS = 0
         const val REQUEST_CODE = 0
-        const val NOTIFICATION_TITLE = "Playing_Music"
+        const val PLAY_BUTTON = "Play"
+        const val PAUSE_BUTTON = "Pause"
+        const val NOTIFICATION_TITLE = "Playing Music"
         const val NOTIFICATION_CHANNEL_ID = "CHANNEL_ID"
         const val VARIABLE_NAME_KEY = "songId"
-        const val ACTION = "ACTION_SNOOZE"
+        const val PLAYER_ICON = R.drawable.icons_metal_player_play
+        const val PAUSE_ICON = R.drawable.icons_metal_player_pause
         val PORTRAIT_JAVA_CLASS = PortraitActivity::class.java
         val MUSIC_SERVICE_JAVA_CLASS = MusicService::class.java
         val DETAIL_JAVA_CLASS = DetailSection::class.java

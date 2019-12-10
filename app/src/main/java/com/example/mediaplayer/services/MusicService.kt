@@ -61,7 +61,6 @@ class MusicService : Service() {
         mediaPlayer.start()
     }
 
-
     fun playingSongImage(): Int {
         if (position == CHOP_POSITION) {
             return CHOP_DRAWABLE
